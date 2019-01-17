@@ -1,6 +1,49 @@
 # Disaster Response Pipeline Project
 
-### Instructions:
+Udacity project - Create a Data Pipeline to triage messages for delivery to correct disaster response teams 
+
+
+### Table of Contents
+
+1. [Libraries and Installation](#installation)
+2. [Project Description](#motivation)
+3. [Files](#files)
+4. [Findings](#results)
+
+## Libraries and Installation <a name="installation"></a>
+
+The project uses the Flask web framework, whcih does not require any special installation.
+External libraries wil lbe added as the project moves forward.
+
+## Project Description<a name="motivation"></a>
+
+This project uses a dataset provided by FigureEight consisting of messages sent during various natural disasters.
+The purpose is to perform ETL operations, pipeline clean data to a SQL database, and provide a web dashboard that would be usable by disaster response agencies.
+
+## Files <a name="files"></a>
+
+- app
+| - template
+| |- master.html  # main page of web app
+| |- go.html  # classification result page of web app
+|- run.py  # Flask file that runs app
+
+- data
+|- disaster_categories.csv  # data to process 
+|- disaster_messages.csv  # data to process
+|- process_data.py
+|- InsertDatabaseName.db   # database to save clean data to
+
+- models
+|- train_classifier.py
+|- classifier.pkl  # saved model 
+
+## Findings<a name="results"></a>
+
+In progress
+
+
+## Udacity Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
