@@ -13,7 +13,9 @@ Udacity project - Create a Data Pipeline to triage messages for delivery to corr
 ## Libraries and Installation <a name="installation"></a>
 
 The project uses the Flask web framework, whcih does not require any special installation.
-External libraries wil lbe added as the project moves forward.
+
+sqlalchemy
+pandas
 
 ## Project Description<a name="motivation"></a>
 
