@@ -16,6 +16,10 @@ The project uses the Flask web framework, whcih does not require any special ins
 
 sqlalchemy
 pandas
+plotly
+nltk
+sklearn
+
 
 ## Project Description<a name="motivation"></a>
 
