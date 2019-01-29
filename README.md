@@ -12,19 +12,26 @@ Udacity project - Create a Data Pipeline to triage messages for delivery to corr
 
 ## Libraries and Installation <a name="installation"></a>
 
-The project uses the Flask web framework, whcih does not require any special installation.
+The project uses the Flask web framework, which does not require any special installation.
 
-sqlalchemy
-pandas
-plotly
-nltk
-sklearn
-
+Python packages:
+ - sqlalchemy
+ - pandas
+ - plotly
+ - nltk
+ - sklearn
+ - re
 
 ## Project Description<a name="motivation"></a>
 
 This project uses a dataset provided by FigureEight consisting of messages sent during various natural disasters.
 The purpose is to perform ETL operations, pipeline clean data to a SQL database, and provide a web dashboard that would be usable by disaster response agencies.
+
+There are two data pipelines, and a web pp to provide a data visualization dashboard.
+ - ETL Pipeline with data cleaning
+ - Machine learning pipeline with text tokenization, lemmatization, and classification by way of multi-output random forest classifier
+
+ The project also includes Jupyter notebooks that were used to optimize the classifier.
 
 ## Files <a name="files"></a>
 
