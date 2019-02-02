@@ -2,6 +2,11 @@
 
 {% block content %}
 
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="/static/scripts/content.js"></script>
+
+<script>test();</script>
+
 <div class="jumbotron">
     <h1>Disaster Response</h1>
     <p class="lead">Classify Disaster Messages from FigureEight.</p>
@@ -17,9 +22,19 @@
 
 <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-        <h3>Placeholder</h3>
-        <p>Message classifier.</p>
+        <h3>Classify Message</h3>
+        <form>
+            <div class="form-group">
+              <label for="message_text">Message Text</label>
+              <input type="email" class="form-control" id="message_text" placeholder="Enter message">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
+
+    <div id="classification_results_container">
+    </div>
+
     <div id="menu1" class="tab-pane fade">
         <h3>Visualization 1</h3>
         <p>Messages by Genre</p>
