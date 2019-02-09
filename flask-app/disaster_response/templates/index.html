@@ -4,8 +4,11 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="/static/scripts/content.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script>test();</script>
+<script>setup_data();</script>
 
 <div class="jumbotron">
     <h1>Disaster Response</h1>
@@ -18,6 +21,7 @@
     <li class="active"><a data-toggle="tab" href="#home">Classify Message</a></li>
     <li><a data-toggle="tab" href="#menu1">Messages by Genre</a></li>
     <li><a data-toggle="tab" href="#menu2">Messages by Class</a></li>
+    <li><a data-toggle="tab" href="#menu3">Messages Received</a></li>
 </ul>
 
 <div class="tab-content">
@@ -25,24 +29,53 @@
         <h3>Classify Message</h3>
         <form>
             <div class="form-group">
-              <label for="message_text">Message Text</label>
-              <input type="email" class="form-control" id="message_text" placeholder="Enter message">
+              <label for="exampleInputEmail1">Message text</label>
+              <input class="form-control" id="message_box">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+            <button type="submit" class="btn btn-primary" id="classify_button">Submit</button>
+          </form>
+
+          <div id="classification_results_container">
+                <p>No results yet</p>
+            </div>
+
     </div>
 
-    <div id="classification_results_container">
-    </div>
+
 
     <div id="menu1" class="tab-pane fade">
         <h3>Visualization 1</h3>
-        <p>Messages by Genre</p>
+        <p>Messages by Genre - All</p>
+        <!-- DOM Container to hold All messages by genre plot-->
+        <div id="messages_by_genre_all">
+                <p>No results yet</p>
+        </div>
     </div>
     <div id="menu2" class="tab-pane fade">
         <h3>Visualization 2</h3>
-        <p>Messages by Class.</p>
+        <p>Messages by Class - All.</p>
+        <!-- DOM Container to hold All messages by class plot-->
+        <div id="messages_by_class_all">
+                <p>No results yet</p>
+        </div>
     </div>
+    <div id="menu3" class="tab-pane fade">
+            <h3>Current Disaster Event</h3>
+            <h4>Messages received - by genre</h4>
+            <!-- DOM Container to hold current diaster messages by genre plot-->
+            <div id="messages_by_genre_curr">
+                    <p>No results yet</p>
+            </div>
+            <hr>
+            <h4>Messages received - by class</h4>
+            <!-- DOM Container to hold current diaster messages by class plot-->
+            <div id="messages_by_class_curr">
+                    <p>No results yet</p>
+            </div>
+
+    </div>
+
+
 </div>
 
 
