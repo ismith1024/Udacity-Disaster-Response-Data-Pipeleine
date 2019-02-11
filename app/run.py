@@ -4,6 +4,7 @@ import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
 from flask import Flask
 from flask import render_template, request, jsonify
@@ -14,7 +15,13 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
+url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
 def tokenize(text):
+    detected_urls = re.findall(url_regex, text)
+    for url in detected_urls:
+        text = text.replace(url, "urlplaceholder")
+
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -24,7 +31,7 @@ def tokenize(text):
         clean_tokens.append(clean_tok)
 
     return clean_tokens
-
+    
 # load data
 engine = create_engine('sqlite:///../data/InsertDatabaseName.db')
 df = pd.read_sql_table('InsertTableName', engine)

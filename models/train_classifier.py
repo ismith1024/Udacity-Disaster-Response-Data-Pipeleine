@@ -28,17 +28,20 @@ Loads a SQLite database into a dataframe
 In: database_filepath -- file path to the database
 Returns: X, Y, category names
 '''
-def load_data(database_filepath = 'sqlite:///InsertDatabaseName.db'):
+def load_data(database_filepath = 'InsertDatabaseName.db'):
 
-    engine = create_engine(database_filepath)
+    engine = create_engine('sqlite:///InsertDatabaseName.db')
+    #engine = create_engine(database_filepath)
     df = pd.read_sql_table(table_name = 'InsertTableName', con=engine)
+
+    print(df.head(10))
 
     X = df.message
     Y = df[['related', 'request', 'offer', 'aid_related', 'medical_help', 'medical_products', 'search_and_rescue',
-        'security', 'military', 'chbest_estimator_ ild_alone', 'water', 'food', 'shelter', 'clothing', 'money', 'missing_people',
-        'refugees', 'death', 'other_aid', 'infrastructure_related', 'transport', 'buildings', 'electricity',
-        'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure', 'weather_related', 'floods',
-        'storm', 'fire', 'earthquake', 'cold', 'other_weather', 'direct_report', ]]
+'security', 'military', 'child_alone', 'water', 'food', 'shelter', 'clothing', 'money', 'missing_people',
+'refugees', 'death', 'other_aid', 'infrastructure_related', 'transport', 'buildings', 'electricity',
+'tools', 'hospitals', 'shops', 'aid_centers', 'other_infrastructure', 'weather_related', 'floods',
+'storm', 'fire', 'earthquake', 'cold', 'other_weather', 'direct_report', ]]
     category_names = []
 
     for i in df:
@@ -81,10 +84,18 @@ def build_model():
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer = tokenize)),
         ('tfidf', TfidfTransformer()),
-            ('clf', MultiOutputClassifier(estimator = rf)),#('clf', OneVsRestClassifier(MultiOutputClassifier(estimator = rf))),
+        ('clf', MultiOutputClassifier(estimator = rf)),
     ])
 
-    return pipeline
+    parameters = {
+        'features__text_pipeline__vect__ngram_range': ((1, 1), (1, 2)),
+        'clf__n_estimators': [50, 100, 200],
+        'clf__min_samples_split': [2, 3, 4] 
+        }
+
+    cv =  GridSearchCV(pipeline, param_grid=parameters)
+
+    return cv
 
 '''
 Evaluates the ML pipeline
@@ -93,11 +104,11 @@ Prints the Accuracy, Precision, and Recall metrics for each class
 '''
 def evaluate_model(model, X_test, Y_test, category_names):
     # evaluate all steps on test set
-    y_pred = pipeline.predict(X_test)
+    y_pred = model.predict(X_test)
 
     for col in range(y_pred.shape[1]):
         print("Class: " + str(col))
-        print(classification_report(y_test.iloc[:, col], y_pred[:, col])
+        print(classification_report(Y_test.iloc[:, col], y_pred[:, col]))
 
 
 def save_model(model, model_filepath = 'model.pkl'):
