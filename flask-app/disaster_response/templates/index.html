@@ -28,7 +28,8 @@
     <div id="home" class="tab-pane fade in active">
         <h3>Classify Message</h3>
         <form>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label for="genre_buttons">Message source</label><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="genre_buttons">
                     <label class="btn btn-secondary active">
                         <input type="radio" name="options" id="direct_button" autocomplete="off" checked> Direct
                     </label>
@@ -38,15 +39,17 @@
                     <label class="btn btn-secondary">
                         <input type="radio" name="options" id="news_button" autocomplete="off"> News
                     </label>
-                    </div>
+            </div><br>
 
             <div class="form-group">
-              <label for="exampleInputEmail1">Message text</label>
+              <label for="message_box">Message text</label><br>
               <input class="form-control" id="message_box">
             </div>
             <button type="submit" class="btn btn-primary" id="classify_button">Submit</button>
           </form>
 
+        <hr>
+        <h3>Classification Results</h3>
           <div id="classification_results_container">
                 <p>No results yet</p>
             </div>
