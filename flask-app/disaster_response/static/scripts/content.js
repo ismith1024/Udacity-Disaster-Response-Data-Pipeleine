@@ -41,7 +41,6 @@ var update_classes = function(classifier_json){
 };
 
 
-////// TODO: add the msg_genre query parameter
 var classify_message = function() {
 /*
 classify_message()
@@ -66,6 +65,13 @@ classify_message()
 
     var classifierResults = []
     var classifierURL = "http://localhost:5555/classifier?msg_text=" + encodeURIComponent(msg_string);
+
+    if($('#direct_button').prop('checked')) 
+        classifierURL += '&msg_genre=direct';
+    else if($('#news_button').prop('checked'))
+        classifierURL += '&msg_genre=news';
+    else classifierURL += '&msg_genre=social';
+
     console.log(classifierURL);
 
     $.getJSON(classifierURL, classifierResults, function (classifierResults) {
