@@ -8,36 +8,22 @@ var message_types = [] //holds the messages and their types
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
-var updateHighlightedContract = function(){
-	var mile = $("#milesOptions").val();
-	
-	for(var i = 0; i < miles_JSON.length; i++){
-        if (miles_JSON[i].milestone == mile) {
-            selected_client = miles_JSON[i].client.trim();
-            selected_productDesc = miles_JSON[i].productDesc.trim();
-            selected_milestone = miles_JSON[i].milestone.trim();
-
-			$("#clientNameText").replaceWith('<p id="clientNameText"><b>Client:</b> ' + miles_JSON[i].client + '</p>');
-			$("#productNameText").replaceWith('<p id="productNameText"><b>Product:</b> ' + miles_JSON[i].productDesc + '</p>');
-			$("#milestoneText").replaceWith('<p id="milestoneText"><b>Milestone:</b> ' + miles_JSON[i].milestone + '</p>');			
-		}
-	}
-	
-};
-
-
-
-var resetWarning = function () {
-    $('#warning_container').replaceWith('<div id="warning_container"></div >');
-};
-
-
 //////////////////// CLASSIFIER IS HERE
 
-/*
-    update_classes(classifier_results)  
-*/
+
 var update_classes = function(classifier_json){
+/*
+    update_classes(classifier_results)
+    In:
+        classifier_results : JSON string from the /classifier route
+    Out:
+        None
+    Callback:
+        None
+    This function is a callback for the classify message function
+    Updates the #classification_results_container DOM element  
+*/
+
     console.log("Updating classes:");
     console.log(classifier_json);
 
@@ -52,26 +38,30 @@ var update_classes = function(classifier_json){
     new_container_html += '</p></div>';
 
     $("#classification_results_container").replaceWith(new_container_html);
-
-    
-
-
 };
 
 
-/*
-classify_message()
-    - gets the message from the message box element #message_box
-    - POSTs a classify request to the server
-    - Callback: updates the message classes and probabilities
-*/
-
 ////// TODO: add the msg_genre query parameter
 var classify_message = function() {
-
+/*
+classify_message()
+    In: 
+        None
+    Out:
+        HTTP GET request
+        Parameters:
+            msg_text: the message text
+            msg_genre: the message genre
+    Callback:
+        update_classes()
+    
+    - Reads the message from the message box element #message_box
+    - Sends a HTTP GET request to the server's /classifier route
+    - Initiates a callback to update_classes() with the JSON string obtained from the HTTP response
+*/
     var msg_string;
     if ($("#message_box").val() != null) {
-        msg_string = $("#message_box").val(); //.replace(/ /g, "");
+        msg_string = $("#message_box").val();
     } else msg_string = "";
 
     var classifierResults = []
@@ -91,12 +81,22 @@ var classify_message = function() {
 
 };
 
+
+var update_plots = function(){
 /*
 update_plots()
-gets the current and training set genre and class counts
-inserts the plots into the DOM
+    In: none
+    Out: none
+    Callback: none
+
+    Initiates separate HTTP GET requests to the /msg_by_genre, /msg_by_class, /curr_msgs_genre, /curr_msgs_class routes
+        to obtain current and all counts of messages by genre and class
+    Initiates a separate callback for each of the four requests:
+     - Parse data from the JSON string from the HTTP reponse
+     - Format a plotly bar plot object from the data
+     - Refresh the plot in the corresponding DOM container
+
 */
-var update_plots = function(){
 
     var msg_results = [];
 
@@ -208,16 +208,23 @@ var update_plots = function(){
 
 
 
-/*
- * setup_data()
- * runs when page loads
- * initiates all API calls to set up the DOM
- */
 var setup_data = function(){
+/*
+ setup_data()
+ 
+    In : none
+    Out: none
+    Callbacks: none
+ 
+    Initiated by a <script> tag in the 'index.html' home page on page load
+    Updates the plots with initial class and genre counts
+    Adds an on-click listener to the #classify_button element
+ */
     
     update_plots();
 
     //Add a click listener to the submit message button
+    //Returns false to prevent page reloads
 	$(document).on('click', '#classify_button', function(){
         classify_message();
         update_plots();
