@@ -89,21 +89,21 @@ def classify(msg_text):
         in: some message text
         out: array of {class: __, value: __}
     '''
-    return_array = []
-    return_dict = {}
-    return_dict['msg_class'] = 'some class'
-    return_dict['prob'] = 0.75
-    return_array.append(return_dict)
-    return_dict = {}
-    return_dict['msg_class'] = 'some other class'
-    return_dict['prob'] = 0.15
-    return_array.append(return_dict)
-    return_dict = {}
-    return_dict['msg_class'] = 'yet another class'
-    return_dict['prob'] = 0.1
-    return_array.append(return_dict)  
 
-    print(return_array)
+    res = model.predict([msg_text])
+
+    return_array = []
+
+    for index, val in enumerate(res[0]):
+        #print(category_labels[index] + ":" + str(val))
+        row_dict = {}
+        row_dict['class'] = category_labels[index]
+        row_dict['value'] = val
+
+        #add to the current message counts
+        for row in curr_messages_class:
+            if row['class'] == category_labels[index] and val > 0:
+                row['count'] = row['count'] + 1
 
     return return_array
 
@@ -155,22 +155,10 @@ msg_row['count'] = 9
 curr_messages_genre.append(msg_row)
 
 curr_messages_class = []
-msg_row = {}
-msg_row['class'] = 'medical_help'
-msg_row['count'] = 7
-curr_messages_class.append(msg_row)
-msg_row = {}
-msg_row['class'] = 'storm'
-msg_row['count'] = 11
-curr_messages_class.append(msg_row)
-msg_row = {}
-msg_row['class'] = 'other_aid'
-msg_row['count'] = 4
-curr_messages_class.append(msg_row)
-msg_row = {}
-msg_row['class'] = 'tools'
-msg_row['count'] = 5
-curr_messages_class.append(msg_row)
+for label in category_labels:
+    msg_row = {}
+    msg_row['class'] = label
+    msg_row['count'] = 0
 
 
 
