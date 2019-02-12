@@ -139,19 +139,18 @@ for genre in genre_counts:
 print("Starting server on port 5555")
 
 #the messages that have been received and classified from the current disaster event
-#placeholder for now
 curr_messages_genre = []
 msg_row = {}
 msg_row['genre'] = 'direct'
-msg_row['count'] = 3
+msg_row['count'] = 0
 curr_messages_genre.append(msg_row)
 msg_row = {}
 msg_row['genre'] = 'news'
-msg_row['count'] = 12
+msg_row['count'] = 0
 curr_messages_genre.append(msg_row)
 msg_row = {}
 msg_row['genre'] = 'social'
-msg_row['count'] = 9
+msg_row['count'] = 0
 curr_messages_genre.append(msg_row)
 
 curr_messages_class = []
@@ -210,6 +209,12 @@ def classifier():
     query_parameters = request.args
 
     msg_text = query_parameters.get('msg_text')
+    genre = query_parameters.get('msg_genre')
+
+    #track the counts of genres received during the current event
+    for row in curr_messages_genre:
+        if row['genre'] == genre:
+            row['count'] = row['count'] + 1
 
     resp = classify(msg_text)
     

@@ -65,6 +65,8 @@ classify_message()
     - POSTs a classify request to the server
     - Callback: updates the message classes and probabilities
 */
+
+////// TODO: add the msg_genre query parameter
 var classify_message = function() {
 
     var msg_string;
@@ -85,8 +87,7 @@ var classify_message = function() {
 
     });
 
-    return false;
-    //resetWarning();
+    return false;   
 
 };
 
