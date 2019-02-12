@@ -22,7 +22,6 @@ from nltk.corpus import stopwords
 import nltk
 import re
 import numpy as np
-import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.metrics import confusion_matrix
@@ -36,13 +35,9 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import AdaBoostClassifier
-
 from sklearn.externals import joblib
-import numpy as np
 import math
 import matplotlib.pyplot as plt
-#import train_classifier
-#from train_classifier import tokenize
 
 ## sqlite3
 import sqlite3
@@ -60,6 +55,18 @@ app = Flask('disaster_response')
 url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 def tokenize(text):
+    '''
+    In:
+        url_regex: regex to find and replace URLs
+        text: raw text to be tokenized
+    Out: 
+        clean_tokens: a list containing the tokens
+
+    Replaces URLs with a placeholder
+    Word-tokenizes the text
+    Lemmatizes the tokens
+    Strips and converts tokens to lower case
+    '''
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, "urlplaceholder")
@@ -86,8 +93,13 @@ model = joblib.load("../models/model.pkl")
 def classify(msg_text):
     '''
         classify(msg_text)
-        in: some message text
-        out: array of {class: __, value: __}
+        in: 
+            msg_text: free message text
+        out: 
+            return_array: array of {class: __, value: __}
+
+        Predicts the class(es) assiciated to a message
+        Provides the results
     '''
 
     res = model.predict([msg_text])
@@ -165,10 +177,13 @@ for label in category_labels:
 '''
 Routes to render HTML templates
 '''
+
 @app.route('/')
 @app.route('/home')
 def home():
-    """Renders the home page."""
+    '''
+    Renders the home page.
+    '''
     return render_template(
         'index.html',
         title='Disaster Response',
@@ -177,7 +192,10 @@ def home():
 
 @app.route('/contact')
 def contact():
-    """Renders the contact page."""
+    '''
+    Renders the contact page.
+    Created by the Flask template project, keeping it for now
+    '''
     return render_template(
         'contact.html',
         title='Contact',
@@ -187,7 +205,10 @@ def contact():
 
 @app.route('/about')
 def about():
-    """Renders the about page."""
+    '''
+    Renders the about page.
+    Created by the Flask template project, keeping it for now
+    '''
     return render_template(
         'about.html',
         title='About',
@@ -200,12 +221,20 @@ def about():
 REST API routes
 '''
 
-'''
-    /classifier route    
 
-'''
 @app.route('/classifier', methods=['GET'])
 def classifier():
+    '''
+    /classifier route    
+    In:
+        HTTP GET request
+    Out:
+        A JSON string with the classification results in [['class': ___, 'value': ___], ...] format
+
+        Handles a classification request
+        Adds the results to the current event genre and class counts
+        Returns the classification result as a JSON string
+    '''
     query_parameters = request.args
 
     msg_text = query_parameters.get('msg_text')
@@ -221,44 +250,56 @@ def classifier():
     return jsonify(resp)
 
 
-'''
-    /msg_by_genre route    
-    Returns the training set by genre
-'''
 @app.route('/msg_by_genre', methods=['GET'])
 def msg_by_genre():
-
+    '''
+    /msg_by_genre route    
+    In:
+        HTTP GET request
+    Out:
+        JSON string with counts of the training set by genre
+    '''
     return jsonify(all_messages_genre)
 
-'''
-    /msg_by_class route   
-    Returns the training set by class
-'''
+
 @app.route('/msg_by_class', methods=['GET'])
 def msg_by_class():
-    
+    '''
+    /msg_by_class route    
+    In:
+        HTTP GET request
+    Out:
+        JSON string with counts of the training set by class
+    '''
     return jsonify(all_messages_class)
 
-'''
-    /curr_msgs_genre route
-    returns counts of message genres for the current disaster event
-'''
 @app.route('/curr_msgs_genre', methods=['GET'])
 def curr_msgs_genre():
-  
+    '''
+    /curr_msgs_genre route    
+    In:
+        HTTP GET request
+    Out:
+        JSON string with counts of the current messages by genre
+    '''
     return jsonify(curr_messages_genre)
 
-'''
-    /curr_msgs_class route
-    returns counts of message classes for the current disaster event
-'''
 @app.route('/curr_msgs_class', methods=['GET'])
 def curr_msgs_class():
-    
+    '''
+    /curr_msgs_class route    
+    In:
+        HTTP GET request
+    Out:
+        JSON string with counts of the current messages by class
+    '''
     return jsonify(curr_messages_class)
 
 
 def main():
+    '''
+    Runs the app on localhost:5555
+    '''
     app.run(host='0.0.0.0', port=5555, debug=True)
 
 
