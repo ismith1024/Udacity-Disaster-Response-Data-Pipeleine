@@ -23,12 +23,13 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 
-'''
-Loads a SQLite database into a dataframe
-In: database_filepath -- file path to the database
-Returns: X, Y, category names
-'''
+
 def load_data(database_filepath = 'InsertDatabaseName.db'):
+    '''
+    Loads a SQLite database into a dataframe
+    In: database_filepath -- file path to the database
+    Returns: X, Y, category names
+    '''
 
     engine = create_engine('sqlite:///InsertDatabaseName.db')
     #engine = create_engine(database_filepath)
@@ -49,14 +50,16 @@ def load_data(database_filepath = 'InsertDatabaseName.db'):
 
     return X, Y, category_names
 
-'''
-Tokenizes a string of text
-Replaces urls with a placeholder
-Tokenizes on words
-Converts to lower, lemmatizes, and strips
-Returns a list collection of clean tokens
-'''
+
 def tokenize(text):
+    '''
+    Tokenizes a string of text
+    Replaces urls with a placeholder
+    Tokenizes on words
+    Converts to lower, lemmatizes, and strips
+    Returns a list collection of clean tokens
+    '''
+
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
     detected_urls = re.findall(url_regex, text)
@@ -73,12 +76,13 @@ def tokenize(text):
 
     return clean_tokens
 
-'''
-Builds a ML pipeline
-Returns the pipeline
 
-'''
 def build_model():
+    '''
+    Builds a ML pipeline
+    Returns the pipeline
+
+    '''
     rf = RandomForestClassifier()
 
     pipeline = Pipeline([
@@ -97,12 +101,13 @@ def build_model():
 
     return cv
 
-'''
-Evaluates the ML pipeline
-Prints the Accuracy, Precision, and Recall metrics for each class
 
-'''
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    Evaluates the ML pipeline
+    Prints the Accuracy, Precision, and Recall metrics for each class
+
+    '''
     # evaluate all steps on test set
     y_pred = model.predict(X_test)
 
@@ -112,12 +117,34 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath = 'model.pkl'):
+    '''
+    save_model
+    In:
+        model: the model object
+        model_filepath: path to the fiel to save
+        writes the model object to a serialized .pkl file
+    '''
     pkl_outfile = open(model_filepath,'wb')
     pickle.dump(model, pkl_outfile)
     pkl_outfile.close()
 
 
 def main():
+    '''
+    main
+    In:
+        2 parameters:
+        - database filepath
+        - model filepath
+    Out:
+        Writes the model to the file path specified
+
+    Runs the app:
+        - Builds a model
+        - Trains and optimizes the model using gridsearch
+        - Writes the optimal model to serialized file
+    '''
+
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
