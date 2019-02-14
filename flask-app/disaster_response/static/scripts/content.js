@@ -1,15 +1,6 @@
 
-///// DOM Element Values
+
 var message_types = [] //holds the messages and their types
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-/////DOM Functions
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////// CLASSIFIER IS HERE
-
 
 var update_classes = function(classifier_json){
 /*
@@ -31,8 +22,8 @@ var update_classes = function(classifier_json){
     
     for(i = 0; i < classifier_json.length; i++){
         new_container_html += '<p>Results:'
-        new_container_html += classifier_json[i].msg_class + ':' + classifier_json[i].prob;
-        console.log(classifier_json[i].msg_class + ':' + classifier_json[i].prob);
+        new_container_html += classifier_json[i].class + ':' + classifier_json[i].value;
+        //console.log(classifier_json[i].msg_class + ':' + classifier_json[i].prob);
     }    
     
     new_container_html += '</p></div>';
@@ -72,7 +63,7 @@ classify_message()
         classifierURL += '&msg_genre=news';
     else classifierURL += '&msg_genre=social';
 
-    console.log(classifierURL);
+    console.log("Classify request to : " + classifierURL);
 
     $.getJSON(classifierURL, classifierResults, function (classifierResults) {
         for (i = 0; i < classifierResults.length; i++) {
@@ -147,9 +138,9 @@ update_plots()
             }
         ];
 
-        console.log('All messages by class:')
+        //console.log('All messages by class:')
         for(i = 0; i < msg_results.length; ++i){
-            console.log(data[0]);
+            //console.log(data[0]);
             data[0].x.push(msg_results[i].class);
             data[0].y.push(msg_results[i].count);
         };
@@ -196,7 +187,7 @@ update_plots()
             }
         ];
 
-        console.log(data);
+        //console.log(data);
 
         for(i = 0; i < msg_results.length; ++i){
             data[0].x.push(msg_results[i].class);

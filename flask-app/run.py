@@ -8,7 +8,6 @@ from flask import render_template
 from flask import request, jsonify
 import json
 from flask import Response
-from datetime import timedelta  
 from flask import Flask, make_response, request, current_app  
 from functools import update_wrapper
 from flask import Flask, flash, request, redirect, url_for
@@ -45,14 +44,17 @@ from sqlite3 import Error
 import sqlalchemy
 from sqlalchemy import create_engine
 
-##for files
-import os
-from shutil import copyfile
-
 #app = Flask(__name__)
 app = Flask('disaster_response')
 
 url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+# load data
+engine = create_engine('sqlite:///../data/disaster_data.db')
+df = pd.read_sql_table('message_data', engine)
+
+
+
 
 def tokenize(text):
     '''
@@ -80,16 +82,10 @@ def tokenize(text):
         clean_tokens.append(clean_tok)
 
     return clean_tokens
-    
-# load data
-engine = create_engine('sqlite:///../data/InsertDatabaseName.db')
-df = pd.read_sql_table('InsertTableName', engine)
 
 # load model
-model = joblib.load("../models/model.pkl")
-
-
-
+model = joblib.load("model.pkl")
+    
 def classify(msg_text):
     '''
         classify(msg_text)
@@ -101,19 +97,26 @@ def classify(msg_text):
         Predicts the class(es) assiciated to a message
         Provides the results
     '''
+    #Tokenize and clean the text
+    #msg_tokens = tokenize(msg_text)
 
-    res = model.predict([msg_text])
+    res = model.predict([msg_text])#msg_tokens)
 
     return_array = []
 
+    print("Classification results:")
     for index, val in enumerate(res[0]):
         #print(category_labels[index] + ":" + str(val))
         row_dict = {}
         row_dict['class'] = category_labels[index]
-        row_dict['value'] = val
+        row_dict['value'] = int(val)
+        return_array.append(row_dict)
 
+        print(str(row_dict))
         #add to the current message counts
+
         for row in curr_messages_class:
+            #print(category_labels[index] + " : " + str(val))
             if row['class'] == category_labels[index] and val > 0:
                 row['count'] = row['count'] + 1
 
@@ -135,7 +138,7 @@ all_messages_class = []
 for label in category_counts:
     lab_row = {}
     lab_row['class'] = label
-    lab_row['count'] = category_counts[label]
+    lab_row['count'] = int(category_counts[label])
     all_messages_class.append(lab_row)
 
 all_messages_genre = []
@@ -170,9 +173,6 @@ for label in category_labels:
     msg_row = {}
     msg_row['class'] = label
     msg_row['count'] = 0
-
-
-
 
 '''
 Routes to render HTML templates
@@ -220,7 +220,6 @@ def about():
 '''
 REST API routes
 '''
-
 
 @app.route('/classifier', methods=['GET'])
 def classifier():

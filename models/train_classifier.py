@@ -24,16 +24,16 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
 
 
-def load_data(database_filepath = 'InsertDatabaseName.db'):
+def load_data(database_filepath):
     '''
     Loads a SQLite database into a dataframe
     In: database_filepath -- file path to the database
     Returns: X, Y, category names
     '''
 
-    engine = create_engine('sqlite:///InsertDatabaseName.db')
+    engine = create_engine('sqlite:///' + database_filepath)
     #engine = create_engine(database_filepath)
-    df = pd.read_sql_table(table_name = 'InsertTableName', con=engine)
+    df = pd.read_sql_table(table_name = 'message_data', con=engine)
 
     print(df.head(10))
 
@@ -83,21 +83,20 @@ def build_model():
     Returns the pipeline
 
     '''
-    rf = RandomForestClassifier()
-
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer = tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(estimator = rf)),
+        ('clf', MultiOutputClassifier(RandomForestClassifier())),
     ])
 
+    #this grid is not very complicated, but I need the script to run in a manageable time
     parameters = {
-        'features__text_pipeline__vect__ngram_range': ((1, 1), (1, 2)),
-        'clf__n_estimators': [50, 100, 200],
-        'clf__min_samples_split': [2, 3, 4] 
+        #'vect__max_features': (None, 5000, 10000),
+        'clf__estimator__n_estimators': [100, 200],
+        'clf__estimator__min_samples_split': [2, 3],
         }
 
-    cv =  GridSearchCV(pipeline, param_grid=parameters)
+    cv =  GridSearchCV(pipeline, param_grid=parameters, verbose=2, n_jobs=4, cv=3)
 
     return cv
 

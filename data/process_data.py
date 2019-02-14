@@ -51,12 +51,16 @@ def clean_data(df):
         
         # convert column from string to numeric
         categories[column] = categories[column].apply(lambda x: int(x))
-
+        
+        #convert to binary
+        categories[column] = categories[column].apply(lambda x: 0 if x == 0 else 1)
+        
     # drop the original categories column from `df`
     df = df.drop('categories', axis=1)
 
     # concatenate the original dataframe with the new `categories` dataframe
-    df =  pd.concat([df, categories], axis=1
+    df =  pd.concat([df, categories], axis=1)
+    df['related'] = df['related'].apply(lambda x: 0 if x == 0 else 1)
     
     # drop duplicates
     df.drop_duplicates(keep='first', inplace=True)
@@ -76,7 +80,7 @@ def save_data(df, database_filename):
     Writes the data in the dataframe to the SQLite database as indicated
     '''
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('InsertTableName', engine, index=False)
+    df.to_sql('message_data', engine, index=False)
 
 
 def main():
