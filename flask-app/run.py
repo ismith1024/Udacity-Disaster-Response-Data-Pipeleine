@@ -115,10 +115,20 @@ def classify(msg_text):
         print(str(row_dict))
         #add to the current message counts
 
+        '''
+        curr_messages_class = []
+        for label in category_labels:
+            msg_row = {}
+            msg_row['class'] = label
+            msg_row['count'] = 0
+        '''
+
         for row in curr_messages_class:
             #print(category_labels[index] + " : " + str(val))
             if row['class'] == category_labels[index] and val > 0:
                 row['count'] = row['count'] + 1
+        
+    print(str(curr_messages_class))
 
     return return_array
 
@@ -173,6 +183,7 @@ for label in category_labels:
     msg_row = {}
     msg_row['class'] = label
     msg_row['count'] = 0
+    curr_messages_class.append(msg_row)
 
 '''
 Routes to render HTML templates

@@ -15,17 +15,32 @@ var update_classes = function(classifier_json){
     Updates the #classification_results_container DOM element  
 */
 
-    console.log("Updating classes:");
+    var msg_string;
+    if ($("#message_box").val() != null) {
+        msg_string = $("#message_box").val();
+    } else msg_string = "";
+    //console.log("Updating classes:");
     console.log(classifier_json);
 
     var new_container_html = '<div id="classification_results_container">';
     
+    new_container_html += '<div class="alert alert-secondary" role="alert">';
+    new_container_html +='<h4 class="alert-heading">Incoming message</h4>';
+    new_container_html +='<p>"' + msg_string + '" has been identified for content:</p>';
+    new_container_html +='<hr>';
+    
+
     for(i = 0; i < classifier_json.length; i++){
-        new_container_html += '<p>Results:'
-        new_container_html += classifier_json[i].class + ':' + classifier_json[i].value;
+        new_container_html += '<p class="mb-0">';
+        if(classifier_json[i].value != 0){
+            new_container_html += classifier_json[i].class;
+        }
+        new_container_html += '</p>';
+        //new_container_html += '<p>Results:'
+        //new_container_html += classifier_json[i].class + ':' + classifier_json[i].value;
         //console.log(classifier_json[i].msg_class + ':' + classifier_json[i].prob);
     }    
-    
+    new_container_html += '</div>';  
     new_container_html += '</p></div>';
 
     $("#classification_results_container").replaceWith(new_container_html);
