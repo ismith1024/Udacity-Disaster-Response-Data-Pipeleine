@@ -21,8 +21,6 @@ from nltk.corpus import stopwords
 import nltk
 import re
 import numpy as np
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -33,7 +31,6 @@ from sklearn.metrics import classification_report
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
-from sklearn.ensemble import AdaBoostClassifier
 from sklearn.externals import joblib
 import math
 import matplotlib.pyplot as plt
@@ -112,7 +109,6 @@ def classify(msg_text):
         row_dict['value'] = int(val)
         return_array.append(row_dict)
 
-        print(str(row_dict))
         #add to the current message counts
 
         '''
@@ -128,8 +124,6 @@ def classify(msg_text):
             if row['class'] == category_labels[index] and val > 0:
                 row['count'] = row['count'] + 1
         
-    print(str(curr_messages_class))
-
     return return_array
 
 
