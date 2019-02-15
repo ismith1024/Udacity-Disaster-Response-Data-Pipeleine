@@ -63,7 +63,7 @@ I redesigned the web app around a REST API.  Significant changes to the Udacity 
 
 4.  Classifying a message
 
-Note the radio buttons to tell the server the genre of the incoming message.  Please note that all disaster categories are passed by the server, but only the applicable ones are displayed to teh user.
+Note the radio buttons to tell the server the genre of the incoming message.  Please note that all disaster categories are passed by the server, but only the applicable ones are displayed to the user.
 
 ![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/04Classify.png "Message classifier")
 
