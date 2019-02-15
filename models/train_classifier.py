@@ -22,6 +22,7 @@ from sklearn.metrics import classification_report
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
+from sklearn.externals import joblib
 
 
 def load_data(database_filepath):
@@ -125,7 +126,7 @@ def save_model(model, model_filepath = 'model.pkl'):
     '''
     pkl_outfile = open(model_filepath,'wb')
     joblib.dump(model.best_estimator_, pkl_outfile)
-    pkl_outfile.close(
+    pkl_outfile.close()
 
 
 def main():
