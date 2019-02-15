@@ -96,7 +96,7 @@ def build_model():
         'clf__estimator__min_samples_split': [2, 3],
         }
 
-    cv =  GridSearchCV(pipeline, param_grid=parameters, verbose=2, n_jobs=4, cv=3)
+    cv =  GridSearchCV(pipeline, param_grid=parameters, verbose=2, n_jobs=-1)
 
     return cv
 
@@ -124,8 +124,8 @@ def save_model(model, model_filepath = 'model.pkl'):
         writes the model object to a serialized .pkl file
     '''
     pkl_outfile = open(model_filepath,'wb')
-    pickle.dump(model, pkl_outfile)
-    pkl_outfile.close()
+    joblib.dump(model.best_estimator_, pkl_outfile)
+    pkl_outfile.close(
 
 
 def main():
