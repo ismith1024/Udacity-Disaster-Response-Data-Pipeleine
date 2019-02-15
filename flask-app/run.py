@@ -31,9 +31,9 @@ from sklearn.metrics import classification_report
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import GridSearchCV
-from sklearn.externals import joblib
 import math
 import matplotlib.pyplot as plt
+from sklearn.externals import joblib
 
 ## sqlite3
 import sqlite3
