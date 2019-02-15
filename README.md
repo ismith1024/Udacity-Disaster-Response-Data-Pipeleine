@@ -51,32 +51,32 @@ I redesigned the web app around a REST API.  Significant changes to the Udacity 
 
 1.  Main application page
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/01Main.png "Main app page")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/01Main.png "Main app page")
 
 2.  "About" page
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/02About.png "About page")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/02About.png "About page")
 
 3.  "Contact" page
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/03Contact.png "Contact page")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/03Contact.png "Contact page")
 
 4.  Classifying a message
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/04Classify.png "Message classifier")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/04Classify.png "Message classifier")
 
 5.  First visualization: Messages from past events, by genre
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/05vis1.png "First visualization")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/05vis1.png "First visualization")
 
 6.  Second visualization: Messages from past events, by class
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/06vis2.png "Second visualization")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/06vis2.png "Second visualization")
 
 7.  Third visualization: Messages from current disaster (i.e. classified during current browsing session), by class and genre
 
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/07vis3a.png "Third visualization")
-![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/images/08vis3b.png "Third visualization")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/07vis3a.png "Third visualization")
+![alt text](https://github.com/ismith1024/Udacity-Disaster-Response-Data-Pipeline/blob/master/images/08vis3b.png "Third visualization")
 
 ## Files <a name="files"></a>
 
